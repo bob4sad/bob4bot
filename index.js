@@ -42,10 +42,11 @@ client.on("message", async message => {
     if (cmd.length === 0) return;
 
     let command = client.commands.get(cmd);
-    if (!command) command = client.command.get(client.aliases.get(cmd));
 
     if (command)
-        command.run(client, message, args);
+        command.run(client, message, args)
+            .then(console.log(`${message.author.username}: {${command.name.toUpperCase()}}`));
+        
 });
 
 
