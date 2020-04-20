@@ -7,7 +7,7 @@ module.exports = {
     category: "info",
     description: "Print help",
     run: async (client, message, args) => {
-        
+        if (message.deletable) message.delete();
         help_message = new MessageEmbed()
             .setAuthor(message.guild.me.user.username, message.guild.me.user.displayAvatarURL())
             .setColor(message.guild.me.displayHexColor)

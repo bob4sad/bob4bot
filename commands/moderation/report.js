@@ -33,12 +33,27 @@ module.exports = {
             .setColor("#ff0000")
             .setTimestamp()
             .setAuthor(stripIndent`Report message`, byMember.user.displayAvatarURL())
-            .setDescription(stripIndent`**Member:** ${rMember}
-            **Reported by:** ${byMember}
-            **Reason:** ${rReason}`)
-            .setFooter(message.guild.name, message.guild.iconURL())
-
-
-        rChannel.send(report_message);
+            .setDescription(stripIndent`> **Member:** ${rMember}
+            > **Reported by:** ${byMember}
+            > **Reason:** ${rReason}`)
+            .setFooter(message.guild.name, message.guild.iconURL());
+        
+        let rCollected = 0
+        rChannel.send(report_message)
+            .then(m => {
+                m.react("🤔");
+                m.awaitReactions((reaction) => {
+                    rCollected = reaction.users.cache.array().length;
+                    
+                }, {time: 15000})
+                    .then(() => {
+                        console.log(`Collected ${rCollected} reactions`)
+                        if (rCollected < 3) {
+                            m.delete().then(rChannel.send(`${byMember}, not enough likes to kick ${rMember}`).then(m => setTimeout(mDelete, 5000, m)));
+                        } else { 
+                            m.delete().then(rChannel.send(`Ok, ${rMember}, have a nice day!`).then(m => setTimeout(mDelete, 5000, m)));
+                        }
+                    })   
+            });
     }
 }

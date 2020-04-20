@@ -45,7 +45,7 @@ client.on("message", async message => {
 
     if (command)
         command.run(client, message, args)
-            .then(console.log(`${message.author.username}: {${command.name.toUpperCase()}}`));
+            .then(console.log(`${message.author.username}: <${command.name.toUpperCase()}>`));
         
 });
 
