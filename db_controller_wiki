@@ -1,0 +1,4 @@
+db_create(table_name)   - отчищение бд
+db_init(table_name)     - проверка бд на наличие таблицы ${table_name}, если нет, то создаёт её
+db_getUserMMR(username) - получить mmr пользователя
+db_addNewUser(username) - добавить нового пользователя
