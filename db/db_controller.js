@@ -1,5 +1,5 @@
 const sqlite3 = require('sqlite3').verbose();
-const file = "database" 
+const file = "./db/database" 
 
 exports.db_create = (table_name) => {
     var db = new sqlite3.Database(file);
