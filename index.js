@@ -2,9 +2,7 @@ const { Client, Collection } = require("discord.js");
 const { config } = require("dotenv");
 const { db_init } = require("./db_controller")
 
-
-
-
+db_init("Users")
 
 const client = new Client({
     disableEveryone: true

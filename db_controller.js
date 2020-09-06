@@ -34,45 +34,52 @@ exports.db_init = (table_name) => {
     db.close();
 }
 exports.db_getUserMMR = (username) => {
-    var db = new sqlite3.Database(file);
-    db.all(`SELECT mmr FROM Users WHERE username='${username}'`,
-        (e, r) => {
-            if (r.length === 0) console.log("user does not exists");
-            else console.log(r);
+    return new Promise((resolve, reject) => {
+        var db = new sqlite3.Database(file);
+        db.get(`SELECT mmr FROM Users WHERE username='${username}'`,
+            (e, r) => {
+                if (!r || r.length === 0) resolve("user does not exists");
+                else resolve(r.mmr);
+        })
+        db.close();
     })
-    db.close();
 }
 
 exports.db_addUserMMR = (username, mmr) => {
-    var db = new sqlite3.Database(file);
-    db.all(`SELECT mmr FROM Users WHERE username='${username}'`,
-        (e, r) => {
-            if (r.length === 0) console.log("user does not exists");
-            else if (r.length === 1){
-                r = r[0]
-                db.run(`UPDATE Users SET mmr=${r.mmr + mmr} WHERE username='${username}'`)
-            }   
-        }
-    )
-    
+    return new Promise((resolve, reject) => {
+        var db = new sqlite3.Database(file);
+        db.all(`SELECT mmr FROM Users WHERE username='${username}'`,
+            (e, r) => {
+                if (r.length === 0) resolve("user does not exists");
+                else if (r.length === 1){
+                    r = r[0]
+                    db.run(`UPDATE Users SET mmr=${r.mmr + mmr} WHERE username='${username}'`)
+                    resolve(r.mmr + mmr)
+                }   
+            }
+        )
+    })
 }
 
 exports.db_addNewUser = (username) => {
-    var db = new sqlite3.Database(file);
-    db.all(`SELECT mmr FROM Users WHERE username='${username}'`,
-        (e, r) => {
-            if (r.length !== 0) console.log("user already exists");
-            else {
-                var db = new sqlite3.Database(file);
-                db.serialize(function() {
-                    var stmt = db.prepare(`INSERT INTO Users VALUES (?, ?)`);
-                    stmt.run(username, 0);
-                    stmt.finalize();
-                })
-                db.close();
-                console.log("user added");
-            }   
-        }
-    )
-    db.close();
+    return new Promise((resolve, reject) => {
+        var db = new sqlite3.Database(file);
+        db.all(`SELECT mmr FROM Users WHERE username='${username}'`,
+            (e, r) => {
+                if (r.length !== 0) resolve("user already exists");
+                else {
+                    var db = new sqlite3.Database(file);
+                    db.serialize(function() {
+                        var stmt = db.prepare(`INSERT INTO Users VALUES (?, ?)`);
+                        stmt.run(username, 0);
+                        stmt.finalize();
+                    })
+                    db.close();
+                    resolve("user added");
+                }   
+            }
+        )
+        db.close();
+    })
+    
 }
