@@ -1,4 +1,4 @@
-const {  db_addNewUser } = require("../../db_controller")
+const {  db_addNewUser } = require("../../db/db_controller")
 
 
 module.exports = {

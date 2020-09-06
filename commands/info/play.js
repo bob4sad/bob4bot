@@ -1,4 +1,4 @@
-const {  db_addUserMMR } = require("../../db_controller")
+const {  db_addUserMMR } = require("../../db/db_controller")
 
 
 module.exports = {

@@ -1,8 +1,10 @@
 const { Client, Collection } = require("discord.js");
 const { config } = require("dotenv");
-const { db_init } = require("./db_controller")
+const { db_init } = require("./db/db_controller")
 
 db_init("Users")
+
+var types = ["png", "jpeg", "jpg", "webm", "mp4"]
 
 const client = new Client({
     disableEveryone: true
@@ -57,13 +59,16 @@ client.on("voiceStateUpdate", (oldState, newState) => {
 
 client.on("message", async message => {
     const prefix = process.env.PREFIX;
-
+    
     if (message.channel.name === "feature_memes") {
-        if (message.attachments.array().length === 0) {
+        if (message.attachments.array().length !== 1 || 
+        types.indexOf(message.attachments
+        .array()[0].name.split(".")
+        [message.attachments.array()[0].name.split(".").length - 1]
+        .toLowerCase()) === -1) {
             message.delete()
         } else {
             message.react("👌")
-            
             message.react("👎")
         }
 
