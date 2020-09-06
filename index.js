@@ -58,21 +58,31 @@ client.on("voiceStateUpdate", (oldState, newState) => {
 client.on("message", async message => {
     const prefix = process.env.PREFIX;
 
-    if (message.author.bot) return;
-    if (!message.guild) return;
-    if (!message.content.startsWith(prefix)) return; // DEBUG MODE ON !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    if (message.channel.name === "feature_memes") {
+        if (message.attachments.array().length === 0) {
+            message.delete()
+        } else {
+            message.react("👌")
+            
+            message.react("👎")
+        }
 
-    const args = message.content.slice(prefix.length).trim().split(/ +/g);
+    } else {
+        if (message.author.bot) return;
+        if (!message.guild) return;
+        if (!message.content.startsWith(prefix)) return; // DEBUG MODE ON !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-    const cmd = args.shift().toLowerCase();
+        const args = message.content.slice(prefix.length).trim().split(/ +/g);
 
-    if (cmd.length === 0 ) return;
+        const cmd = args.shift().toLowerCase();
 
-    const command = client.commands.get(cmd);
-    if (command)
-        command.run(client, message, args)
-            .then(console.log(`${message.author.username}: <${command.name.toUpperCase()}>`));
+        if (cmd.length === 0 ) return;
 
+        const command = client.commands.get(cmd);
+        if (command)
+            command.run(client, message, args)
+                .then(console.log(`${message.author.username}: <${command.name.toUpperCase()}>`));
+    }
 });
 
 client.login(process.env.TOKEN);
