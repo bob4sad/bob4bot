@@ -26,6 +26,7 @@
     "node-gyp": "^7.1.0",
     "nodemon": "^2.0.4",
     "rebuild": "^0.1.2",
+    "node-fetch": ">=2.6.1",
     "sqlite3": "^5.0.0"
   }
 }
