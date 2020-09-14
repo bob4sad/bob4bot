@@ -1,9 +1,0 @@
-ROM ubuntu:20.04
-WORKDIR /bob4bot
-COPY . .
-RUN apt-get update
-RUN apt install -y nodejs 
-RUN apt install -y npm 
-RUN npm i
-RUN npm i -g nodemon -y
-RUN nodemon index.js

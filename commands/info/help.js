@@ -14,8 +14,8 @@ module.exports = {
             .addField("All commands:", stripIndents`**!help** - Showing this message
             **!ping** - Returns latency
             **!start** - Start pro career
-            **!mmr** - Shows your mmr
-            **!play** - Play game`, true)
+            **!stats** - Shows your stats
+            **!play** - Use to get mmr`, true)
             
         message.channel.send(help_message);
     }
